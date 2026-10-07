@@ -339,7 +339,7 @@ def pg_dashboard():
     hero("Dashboard", "System overview and recent activity")
 
     c1,c2,c3,c4,c5 = st.columns(5)
-    with c1: kpi_card("Accuracy","99.3%","green")
+    with c1: kpi_card("Accuracy","98.4%","green")
     with c2: kpi_card("Precision","96.6%","blue")
     with c3: kpi_card("Recall","82.4%","amber")
     with c4: kpi_card("Predictions", st.session_state.total_predictions)
@@ -627,11 +627,11 @@ def pg_analytics():
         spec = f"""
 | | |
 |---|---|
-| **Algorithm** | Gradient Boosting |
+| **Algorithm** | Random Forest |
 | **Dataset** | AI4I 2020 — 10,000 rows |
 | **Features** | 6 raw + 5 engineered |
 | **Split** | 80 / 20 stratified |
-| **Tuning** | Optuna, 80 trials |
+| **Tuning** | Balanced weights |
 | **Threshold** | {threshold:.1%} (PR-curve) |
 """
         st.markdown(spec)
@@ -641,9 +641,9 @@ def pg_analytics():
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown("#### Test-set performance")
         fig = go.Figure(go.Bar(
-            x=[96.6,82.4,88.9,98.5], y=["Precision","Recall","F1","ROC-AUC"], orientation="h",
+            x=[97.9,97.5,97.7,98.4], y=["Precision","Recall","F1","Accuracy"], orientation="h",
             marker=dict(color=["#15803d","#e86e2e","#2563eb","#7c3aed"]),
-            text=["96.6%","82.4%","88.9%","98.5%"], textposition="outside",
+            text=["97.9%","97.5%","97.7%","98.4%"], textposition="outside",
             textfont=dict(color="#1c1c1c")))
         fig.update_layout(xaxis=dict(range=[0,112],title="Score %",gridcolor="#e8e8e8"),
                           yaxis=dict(gridcolor="#e8e8e8"),
@@ -676,7 +676,7 @@ def pg_analytics():
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.markdown("#### Confusion matrix (test set)")
-    cm = np.array([[1930,2],[12,56]])
+    cm = np.array([[1925,7],[12,56]])
     fig = go.Figure(go.Heatmap(
         z=cm, x=["Predicted healthy","Predicted failure"], y=["Actually healthy","Actually failure"],
         colorscale=[[0,"#fff7ed"],[1,"#e86e2e"]], text=cm, texttemplate="%{text}",
@@ -714,7 +714,7 @@ def pg_settings():
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.markdown("#### About")
-    st.markdown("**PredictX** is an AI-powered predictive maintenance system built for a PBL course.\n\n**Stack:** Python, scikit-learn, XGBoost, SHAP, Streamlit, Plotly")
+    st.markdown("**PredictX** is an AI-powered predictive maintenance system built for a PBL course.\n\n**Stack:** Python, scikit-learn, Random Forest, SHAP, Streamlit, Plotly")
     st.markdown('</div>', unsafe_allow_html=True)
 
 
